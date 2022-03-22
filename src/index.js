@@ -170,14 +170,23 @@ function PRGA(plain) {
 
 let hasDoneKSA = false;
 
-function RC4(key, text) {
+function RC4() {
   let plainEl = document.getElementById("plain");
+  let plain = Array.from(plainEl.value);
+  for (let i = 0; i < plain.length; i++)
+  {
+    plain[i] = parseInt(plain[i]);
+  }
+
   let keyEl = document.getElementById("key");
-  plainEl.innerHTML = `plain: ${text}`;
-  keyEl.innerHTML = `key: ${key}`;
-  K = key;
+  K = Array.from(keyEl.value);
+  for (let i = 0; i < K.length; i++)
+  {
+    K[i] = parseInt(K[i]);
+  }
   KSA();
-  PRGA(text);
+  console.log(`Key: ${K}\nPlain: ${plain}`);
+  PRGA(plain);
 }
 
 //RC4([10, 50, 65, 855, 10], [7, 50, 64, 485, 468, 45621313, 454, 1, 312, 8979]);
