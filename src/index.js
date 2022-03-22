@@ -172,17 +172,32 @@ let hasDoneKSA = false;
 
 function RC4() {
   let plainEl = document.getElementById("plain");
-  let plain = Array.from(plainEl.value);
-  for (let i = 0; i < plain.length; i++)
+  let plain = new Array();
+  let getc = "";
+  for (let i = 0; i <= plainEl.value.length; i++)
   {
-    plain[i] = parseInt(plain[i]);
+    if (plainEl.value[i] === "," || i === plainEl.value.length)
+    {
+      console.log(getc);
+      plain.push(parseInt(getc));
+      getc = "";
+    } else {
+      getc += plainEl.value[i];
+    }
   }
 
   let keyEl = document.getElementById("key");
-  K = Array.from(keyEl.value);
-  for (let i = 0; i < K.length; i++)
+  getc = "";
+  for (let i = 0; i <= keyEl.value.length; i++)
   {
-    K[i] = parseInt(K[i]);
+    if (keyEl.value[i] === "," || i === keyEl.value.length)
+    {
+      console.log(getc);
+      K.push(parseInt(getc));
+      getc = "";
+    } else {
+      getc += keyEl.value[i];
+    }
   }
   KSA();
   console.log(`Key: ${K}\nPlain: ${plain}`);
