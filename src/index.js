@@ -38,7 +38,7 @@ function generate_table() {
       var cell = document.createElement("td");
       var cellText = document.createTextNode(i * columnmax + j);
       cell.appendChild(cellText);
-      cell.setAttribute("id", "p" + (i * columnmax + j));
+      cell.setAttribute("id", (i * columnmax + j));
       row.appendChild(cell);
       s[i * columnmax + j] = i * columnmax + j;
     }
@@ -60,10 +60,13 @@ function showArray(a) {
   for (var i = 0; i < rowmax; i++) {
     for (var j = 0; j < columnmax; j++) {
       var index = i * rowmax + j;
-      var cell = document.getElementById("p" + index);
+      var cell = document.getElementById(index);
       var cellText = document.createTextNode(a[i * columnmax + j]);
       var oldText = cell.firstChild; //今表示されている要素
       cell.replaceChild(cellText, oldText); //domの要素を入れ替え
+
+      let oldId = parseInt(oldText.id);
+      console.log(oldId);
     }
   }
 }
@@ -166,3 +169,8 @@ function RC4(key, text) {
 //RC4([255, 1, 0, 255, 1, 0, 255, 1, 0, 255, 1, 0, 255, 1, 0], [174, 50, 89]);
 
 showArray(s); //ｓを表示
+
+s[0] = 1;
+s[1] = 0;
+
+showArray(s);
