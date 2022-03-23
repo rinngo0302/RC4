@@ -1,9 +1,12 @@
+
 document.getElementById("app").innerHTML = `
 <h1>RC4!</h1>
 <div>
   内部状態Sbox
 </div>
 `;
+
+const SPEED = 100;
 
 let K = new Array();
 let z = new Array();
@@ -65,15 +68,16 @@ function showArray(a) {
       var oldText = cell.firstChild; //今表示されている要素
       cell.replaceChild(cellText, oldText); //domの要素を入れ替え
 
-      let oldId = parseInt(oldText.id);
-      console.log(oldId);
+      // cell.firstChild.dataの値を256で割った値で、アルファチャンネルを変える
+      cell.style.backgroundColor = `rgba(156, 150, 256, ${parseInt(cell.firstChild.data) / 256})`;
+      // console.log(`cell.firstChild: ${cell.firstChild}\ncellText: ${cellText.id}\noldText: ${oldText.id}`);
     }
   }
 }
 
 generate_table(); //初期のテーブルを作成，配列sを内部で初期化
 
-// 色を変える
+// 色を変える(未使用)
 function changeColor(num1, num2) {
   // 全ての色の初期化
   for (let i = 0; i < s.length; i++) {
@@ -97,7 +101,8 @@ function KSA() {
     j += s[i] + K[i % K.length];
     j %= 256;
 
-    changeColor(i, j);
+    // console.log(`i: ${i}\nj: ${j}`);
+    // changeColor(i, j);
 
     var x = s[i]; // 要素の入れ替え
     s[i] = s[j];
@@ -108,19 +113,20 @@ function KSA() {
     if (i >= 255) {
       // 初期化終了
       console.log("KSA Stop!");
+      alert("KSA finish!!");
       clearInterval(timerID);
       hasDoneKSA = true; // PRGB()を実行する
+      console.log("in PRGA");
     }
     i++;
-  }, 80);
+  }, SPEED);
 }
 
 function PRGA(plain) {
-  console.log("in PRGA");
-
+  
   let i = 1;
   let j = 0;
-
+  
   let timerID = setInterval(() => {
     // setIntervalは、
     // 処理をとめずに繰り返すのを予約するだけなので、
@@ -133,8 +139,9 @@ function PRGA(plain) {
       s[j] = x;
 
       z.push(s[(s[i] + s[j]) % 256]);
+      // console.log(`i: ${i}\nj: ${j}`);
 
-      changeColor(i, j); // 色変更
+      // changeColor(i, j); // 色変更
       showArray(s); // tableに表示
 
       if (i >= plain.length) {
@@ -151,26 +158,38 @@ function PRGA(plain) {
           out[i] = plain[i] ^ z[i];
         }
         console.log(out); // 結果を出力!
-      }
+        alert("PRGA finish!!");
 
+        let resultEl = document.getElementById("result");
+        resultEl.innerHTML = `result: ${out}`;
+      }
       i++;
     }
-  }, 100);
+  }, SPEED);
 }
 
 let hasDoneKSA = false;
 
-function RC4(key, text) {
-  K = key;
+function RC4() {
+  let plainEl = document.getElementById("plain");
+  let plain = Array.from(plainEl.value);
+  for (let i = 0; i < plain.length; i++)
+  {
+    plain[i] = parseInt(plain[i]);
+  }
+
+  let keyEl = document.getElementById("key");
+  K = Array.from(keyEl.value);
+  for (let i = 0; i < K.length; i++)
+  {
+    K[i] = parseInt(K[i]);
+  }
   KSA();
-  PRGA(text);
+  console.log(`Key: ${K}\nPlain: ${plain}`);
+  PRGA(plain);
 }
 
-//RC4([255, 1, 0, 255, 1, 0, 255, 1, 0, 255, 1, 0, 255, 1, 0], [174, 50, 89]);
-
+//RC4([10, 50, 65, 855, 10], [7, 50, 64, 485, 468, 45621313, 454, 1, 312, 8979]);
 showArray(s); //ｓを表示
-
-s[0] = 1;
-s[1] = 0;
 
 showArray(s);
