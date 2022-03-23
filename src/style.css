@@ -6,5 +6,7 @@ body {
   color: darkorange;
 }
 #s {
-  color: darkgreen;
+  /* color: darkgreen; */
+  font-weight: bold;
+  font-size: 20px;
 }
