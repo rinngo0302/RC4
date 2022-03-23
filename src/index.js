@@ -92,116 +92,135 @@ function changeColor(num1, num2) {
   el1.style.backgroundColor = "#FF9B98";
 }
 
+let i, j;
+let hasDoneKSAOnce = false;
 function KSA() {
   console.log("in KSA");
-  let i = 0;
-  var j = 0;
 
-  let timerID = setInterval(() => {
-    j += s[i] + K[i % K.length];
-    j %= 256;
+  if (!hasDoneKSAOnce)
+  {
+    i = 0;
+    j = 0;
 
-    // console.log(`i: ${i}\nj: ${j}`);
-    // changeColor(i, j);
+    hasDoneKSAOnce = true;
+  }
 
-    var x = s[i]; // 要素の入れ替え
-    s[i] = s[j];
-    s[j] = x;
+  j += s[i] + K[i % K.length];
+  j %= 256;
 
-    showArray(s);
+  // console.log(`i: ${i}\nj: ${j}`);
+  // changeColor(i, j);
 
-    if (i >= 255) {
-      // 初期化終了
-      console.log("KSA Stop!");
-      alert("KSA finish!!");
-      clearInterval(timerID);
-      hasDoneKSA = true; // PRGB()を実行する
-      console.log("in PRGA");
-    }
-    i++;
-  }, SPEED);
+  var x = s[i]; // 要素の入れ替え
+  s[i] = s[j];
+  s[j] = x;
+
+  showArray(s);
+
+  if (i > 255) {
+    // 初期化終了
+    console.log("KSA Stop!");
+    alert("KSA finish!!");
+    hasDoneKSA = true; // PRGB()を実行する
+    console.log("in PRGA");
+  }
+  i++;
 }
 
+let hasDonePRGAOnce = false;
 function PRGA(plain) {
   
-  let i = 1;
-  let j = 0;
+  if (!hasDonePRGAOnce)
+  {
+    i = 1;
+    j = 0;
+
+    hasDonePRGAOnce = true;
+  }
   
-  let timerID = setInterval(() => {
-    // setIntervalは、
-    // 処理をとめずに繰り返すのを予約するだけなので、
-    // KSA()が終わるのを待つ
-    if (hasDoneKSA) {
-      i %= 256;
-      j = (j + s[i]) % 256;
-      let x = s[i];
-      s[i] = s[j];
-      s[j] = x;
+  i %= 256;
+  j = (j + s[i]) % 256;
+  let x = s[i];
+  s[i] = s[j];
+  s[j] = x;
 
-      z.push(s[(s[i] + s[j]) % 256]);
-      // console.log(`i: ${i}\nj: ${j}`);
+  z.push(s[(s[i] + s[j]) % 256]);
+  // console.log(`i: ${i}\nj: ${j}`);
 
-      // changeColor(i, j); // 色変更
-      showArray(s); // tableに表示
+  // changeColor(i, j); // 色変更
+  showArray(s); // tableに表示
 
-      if (i >= plain.length) {
-        // 暗号化終了
-        console.log("PRGA Stop!");
-        clearInterval(timerID);
-
-        console.log(z);
-
-        // きちんとRC4()でしたかった
-        let out = new Array(plain.length); // 結果を記憶する変数
-        for (let i = 0; i < plain.length; i++) {
-          // 全ての要素をXORする
-          out[i] = plain[i] ^ z[i];
-        }
-        console.log(out); // 結果を出力!
-        alert("PRGA finish!!");
-
-        let resultEl = document.getElementById("result");
-        resultEl.innerHTML = `result: ${out}`;
-      }
-      i++;
-    }
-  }, SPEED);
+  
+  if (i > plain.length) {
+    hasDonePRGA = true;
+  }
+  
+  i++;
+  
 }
 
+let hasSetData = false;
 let hasDoneKSA = false;
-
+let hasDonePRGA = false;
+let plain = new Array();
 function RC4() {
-  let plainEl = document.getElementById("plain");
-  let plain = new Array();
-  let getc = "";
-  for (let i = 0; i <= plainEl.value.length; i++)
+  if (!hasSetData)
   {
-    if (plainEl.value[i] === "," || i === plainEl.value.length)
+    let plainEl = document.getElementById("plain");
+    let getc = "";
+    for (let i = 0; i <= plainEl.value.length; i++)
     {
-      console.log(getc);
-      plain.push(parseInt(getc));
-      getc = "";
-    } else {
-      getc += plainEl.value[i];
+      if (plainEl.value[i] === "," || i === plainEl.value.length)
+      {
+        console.log(getc);
+        plain.push(parseInt(getc));
+        getc = "";
+      } else {
+        getc += plainEl.value[i];
+      }
     }
-  }
+  
+    let keyEl = document.getElementById("key");
+    getc = "";
+    for (let i = 0; i <= keyEl.value.length; i++)
+    {
+      if (keyEl.value[i] === "," || i === keyEl.value.length)
+      {
+        console.log(getc);
+        K.push(parseInt(getc));
+        getc = "";
+      } else {
+        getc += keyEl.value[i];
+      }
+    }
+    console.log(`Key: ${K}\nPlain: ${plain}`);
 
-  let keyEl = document.getElementById("key");
-  getc = "";
-  for (let i = 0; i <= keyEl.value.length; i++)
-  {
-    if (keyEl.value[i] === "," || i === keyEl.value.length)
-    {
-      console.log(getc);
-      K.push(parseInt(getc));
-      getc = "";
-    } else {
-      getc += keyEl.value[i];
-    }
+    hasSetData = true;
   }
-  KSA();
-  console.log(`Key: ${K}\nPlain: ${plain}`);
-  PRGA(plain);
+  if (!hasDoneKSA)
+  {
+    KSA();
+  } else if(!hasDonePRGA) {
+    PRGA(plain);
+  } 
+  if (hasDonePRGA) {
+    // 暗号化終了
+    console.log("PRGA Stop!");
+    alert("PRGA finish!!");
+  
+    console.log(z);
+  
+    let out = new Array(plain.length); // 結果を記憶する変数
+    for (let i = 0; i < plain.length; i++) {
+      // 全ての要素をXORする
+      out[i] = plain[i] ^ z[i];
+    }
+    console.log(out); // 結果を出力!
+  
+    let resultEl = document.getElementById("result");
+    resultEl.innerHTML = `result: ${out}`;
+
+  }
 }
 
 //RC4([10, 50, 65, 855, 10], [7, 50, 64, 485, 468, 45621313, 454, 1, 312, 8979]);
