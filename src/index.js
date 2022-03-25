@@ -117,18 +117,17 @@ function KSA() {
 
   showArray(s);
 
-  if (i > 255) {
-    // 初期化終了
+  if (i >= 255) {
     console.log("KSA Stop!");
     alert("KSA finish!!");
     hasDoneKSA = true; // PRGB()を実行する
-    console.log("in PRGA");
   }
   i++;
 }
 
 let hasDonePRGAOnce = false;
 function PRGA(plain) {
+  console.log("in PRGA");
   
   if (!hasDonePRGAOnce)
   {
