@@ -16,6 +16,32 @@
     <div type="text" id="result"> result... </div>
     <button onclick="RC4()"> Encode!! </button>
 
+    <div style="position: absolute; left: 800px;">
+      <h2>
+        Data
+      </h2>
+      <div style="display: flex; width: 100px; justify-content: space-between;">
+        <div id="data_KSA">
+          <h3>
+            KSA
+          </h3>
+
+          <table border="1" id="data_KSA_table">
+
+          </table>
+        </div>
+        
+        <div id="data_PRGA">
+          <h3>
+            PRGA
+          </h3>
+          <table border="1" id="data_PRGA_table">
+  
+          </table>
+        </div>
+      </div>
+    </div>
+
     <script src="src/index.js">
       generate_table();
     </script>

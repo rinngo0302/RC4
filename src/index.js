@@ -114,6 +114,8 @@ function KSA() {
   var x = s[i]; // 要素の入れ替え
   s[i] = s[j];
   s[j] = x;
+  let data = document.getElementById("data_KSA_table");
+  data.innerHTML += `<tr> <td> ${i} </td> <td> ${j} </td> </tr>`;
 
   showArray(s);
 
@@ -143,6 +145,9 @@ function PRGA(plain) {
   s[i] = s[j];
   s[j] = x;
 
+  let data = document.getElementById("data_PRGA_table");
+  data.innerHTML += `<tr> <td> ${i} </td> <td> ${j} </td> </tr>`;
+
   z.push(s[(s[i] + s[j]) % 256]);
   // console.log(`i: ${i}\nj: ${j}`);
 
@@ -150,7 +155,7 @@ function PRGA(plain) {
   showArray(s); // tableに表示
 
   
-  if (i > plain.length) {
+  if (i > plain.length - 1) {
     hasDonePRGA = true;
   }
   
