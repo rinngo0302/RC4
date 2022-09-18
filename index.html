@@ -12,46 +12,12 @@
 
     <div id="svalue"></div>
     <input type="text" id="key" placeholder="key"><br>
-    <input type="text" id="plain" placeholder="plain...">
-    <div type="text" id="result"> result... </div>
+    <textarea id="plain" placeholder="plain..."></textarea>
+    <textarea id="result"> result... </div>
     <button onclick="RC4()"> Encode!! </button>
 
-    <div style="position: absolute; left: 800px;">
-      <h2>
-        Data
-      </h2>
-      <div style="display: flex; width: 100px; justify-content: space-between;">
-        <div id="data_KSA">
-          <h3>
-            KSA
-          </h3>
+    <script src="src/RC4.js"></script>
 
-          <table border="1" id="data_KSA_table">
-
-          </table>
-        </div>
-        
-        <div id="data_PRGA">
-          <h3>
-            PRGA
-          </h3>
-          <table border="1" id="data_PRGA_table">
-  
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <script src="src/index.js">
-      generate_table();
-    </script>
-
-    <input
-      type="button"
-      value="Generate a table."
-      onclick="generate_table();"
-    />
-
-    <button onclick="KSA()">click!</button>
+    <script src="src/index.js"></script>
   </body>
 </html>
