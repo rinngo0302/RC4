@@ -4,32 +4,31 @@
     <title>RC4</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="src/style.css">
-    <!-- script src="src/index.js"></script> -->
   </head>
 
   <body>
-    <div id="app"></div>
-
+    
     <div id="svalue"></div> <br>
     <label> <div> Key: </div>
       <input type="text" id="key" placeholder="key">
     </label>
-
+    
     <br><br>
-
+    
     <label> <div> Plain: </div>
       <textarea id="plain" placeholder="plain..."></textarea>
     </label>
-
+    
     <br><br>
 
     <label> <div> Result: </div>
       <textarea id="result" placeholder="result..."> </textarea>
-   </label>
+    </label>
     <button onclick="RC4()"> Encode!! </button>
     <button onclick="AutoRC4()"> Auto Encode </button><br>
     <button onclick="initialize()"> Initialize </button>
-
+    
+    <div id="app"></div>
     <script src="src/RC4.js"></script>
 
     <script src="src/index.js"></script>
