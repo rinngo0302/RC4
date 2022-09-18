@@ -15,18 +15,7 @@ function RC4() {
   {
     let plainEl = document.getElementById("plain");
     let plainText = plainEl.value;
-    // let getc = "";
-    // for (let i = 0; i <= painText.length; i++)
-    // {
-    //   if (i === pain)
-    //   {
-    //     console.log(getc);
-    //     plain.push(parseInt(getc));
-    //     getc = "";
-    //   } else {
-    //     getc += pain[i];
-    //   }
-    // }
+
     for (let i = 0; i < plainText.length; i++)
     {
       plain.push(plainText[i].charCodeAt());
@@ -39,7 +28,14 @@ function RC4() {
     {
       K.push(keyText[i].charCodeAt());
     }
-    console.log(`Key: ${K}\nPlain: ${plain}`);
+    console.log(`
+Data:
+  Text:
+    Key: ${keyText}
+    Plain: ${plainText}
+  Number:
+    Key: [${K}]
+    Plain: [${plain}]`);
 
     hasSetData = true;
   }
@@ -51,11 +47,9 @@ function RC4() {
   } 
   if (hasDonePRGA) {
     // 暗号化終了
-    console.log("PRGA Stop!");
+    console.log("PRGA finish!");
     alert("PRGA finish!!");
-  
-    console.log(z);
-  
+    
     let out = new Array(plain.length); // 結果を記憶する変数
     for (let i = 0; i < plain.length; i++) {
       // 全ての要素をXORする
@@ -68,7 +62,8 @@ function RC4() {
     }
   
     let resultEl = document.getElementById("result");
-    resultEl.innerHTML = `result: ${outText}`;
+    console.log(`result: ${outText}`);
+    resultEl.value = `${outText}`;
 
   }
 }
@@ -76,8 +71,6 @@ function RC4() {
 let i, j;
 let hasDoneKSAOnce = false;
 function KSA() {
-  console.log("in KSA");
-
   if (!hasDoneKSAOnce)
   {
     i = 0;
@@ -100,10 +93,9 @@ function KSA() {
 
   if (i > 255) {
     // 初期化終了
-    console.log("KSA Stop!");
+    console.log("KSA finish!!");
     alert("KSA finish!!");
     hasDoneKSA = true; // PRGB()を実行する
-    console.log("in PRGA");
   }
   i++;
 }
@@ -138,4 +130,37 @@ function PRGA(plain) {
   
   i++;
   
+}
+
+function AutoRC4()
+{
+  while (!hasDonePRGAOnce && !hasDoneKSA)
+  {
+    RC4();
+  }
+
+  for (let i = 0; i < 3; i++)
+    RC4();
+}
+
+function initialize()
+{
+  hasSetData = false;
+  hasDoneKSA = false;
+  hasDonePRGA = false;
+  hasDoneKSAOnce = false;
+  hasDonePRGAOnce = false;
+  i = 0; j = 0;
+  K = Array();
+  plain = Array();
+  
+  for (let i = 0; i < 256; i++)
+  {
+    s[i] = i;
+    document.getElementById(i).id = i;
+  }
+
+  showArray(s);
+
+  console.log("初期化完了!!");
 }
