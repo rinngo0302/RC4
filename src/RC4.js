@@ -14,31 +14,30 @@ function RC4() {
   if (!hasSetData)
   {
     let plainEl = document.getElementById("plain");
-    let getc = "";
-    for (let i = 0; i <= plainEl.value.length; i++)
+    let plainText = plainEl.value;
+    // let getc = "";
+    // for (let i = 0; i <= painText.length; i++)
+    // {
+    //   if (i === pain)
+    //   {
+    //     console.log(getc);
+    //     plain.push(parseInt(getc));
+    //     getc = "";
+    //   } else {
+    //     getc += pain[i];
+    //   }
+    // }
+    for (let i = 0; i < plainText.length; i++)
     {
-      if (plainEl.value[i] === "," || i === plainEl.value.length)
-      {
-        console.log(getc);
-        plain.push(parseInt(getc));
-        getc = "";
-      } else {
-        getc += plainEl.value[i];
-      }
+      plain.push(plainText[i].charCodeAt());
     }
   
     let keyEl = document.getElementById("key");
+    let keyText = keyEl.value;
     getc = "";
-    for (let i = 0; i <= keyEl.value.length; i++)
+    for (let i = 0; i < keyText.length; i++)
     {
-      if (keyEl.value[i] === "," || i === keyEl.value.length)
-      {
-        console.log(getc);
-        K.push(parseInt(getc));
-        getc = "";
-      } else {
-        getc += keyEl.value[i];
-      }
+      K.push(keyText[i].charCodeAt());
     }
     console.log(`Key: ${K}\nPlain: ${plain}`);
 
@@ -62,10 +61,14 @@ function RC4() {
       // 全ての要素をXORする
       out[i] = plain[i] ^ z[i];
     }
-    console.log(out); // 結果を出力!
+    let outText = new String();
+    for (let i = 0; i < out.length; i++)
+    {
+      outText += String.fromCharCode(out[i]);
+    }
   
     let resultEl = document.getElementById("result");
-    resultEl.innerHTML = `result: ${out}`;
+    resultEl.innerHTML = `result: ${outText}`;
 
   }
 }
