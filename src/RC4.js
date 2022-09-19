@@ -139,7 +139,7 @@ function AutoRC4()
     RC4();
   }
 
-  for (let i = 0; i < K.length + 1; i++)
+  for (let i = 0; i < plain.length + 1; i++)
     RC4();
 }
 
