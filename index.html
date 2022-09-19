@@ -8,6 +8,10 @@
 
   <body>
     
+    <div id="app"></div>
+    <script src="src/RC4.js"></script>
+    
+    <script src="src/index.js"></script>
     <div id="svalue"></div> <br>
     <label> <div> Key: </div>
       <input type="text" id="key" placeholder="key">
@@ -23,14 +27,10 @@
 
     <label> <div> Result: </div>
       <textarea id="result" placeholder="result..."> </textarea>
-    </label>
+    </label><br>
     <button onclick="RC4()"> Encode!! </button>
-    <button onclick="AutoRC4()"> Auto Encode </button><br>
+    <button onclick="AutoRC4()"> Auto Encode </button>
     <button onclick="initialize()"> Initialize </button>
     
-    <div id="app"></div>
-    <script src="src/RC4.js"></script>
-
-    <script src="src/index.js"></script>
   </body>
 </html>
